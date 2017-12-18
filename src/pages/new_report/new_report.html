@@ -1,0 +1,72 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+		<ion-title *ngIf="nearReports && !isBlocked">Segnalazioni nelle Vicinanze</ion-title>
+        <ion-title *ngIf="!nearReports && !isBlocked">Aggiungi massimo {{numMaxPhotos}} foto</ion-title>
+        <ion-title *ngIf="isBlocked">Account Bloccato</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  
+   <div *ngIf="isBlocked" class="blocked_account" >
+        
+        <p>Il tuo account è stato bloccato, non puoi creare ulteriori segnalazioni.</p>
+     
+
+           
+     </div>
+    
+    <div *ngIf="nearReports && !isBlocked" name="segnalazioni_vicine" >
+        
+      <ion-list>
+      <ion-item *ngFor="let item of reports" class="reports_list">
+        <ion-thumbnail item-left>
+          <img src="{{item.img}}" />
+        </ion-thumbnail>
+        <h3>{{item.title}}</h3>
+          <p>{{item.description}}</p>
+          <button ion-button clear item-right (click)="addInfoWindow(item.id)" >Dettagli</button>
+      </ion-item>
+        </ion-list>
+
+            <button ion-button small (click)="changeStatus()">Continua con la Segnalazione</button>
+     </div>
+    
+    
+    
+    
+    
+    <div *ngIf="!nearReports && !isBlocked" name="foto">
+        <ion-list>
+        
+          <ion-item *ngIf="!photoTaken">  
+                <button class="photo_buttons" ion-button full large  (click)="takePicture()" icon-left><ion-icon name="camera"></ion-icon>Scatta</button>
+                <button class="photo_buttons" ion-button full large  (click)="choosePicture()" icon-left><ion-icon name="image"></ion-icon>Recupera</button>
+            </ion-item>
+           
+            <ion-item *ngIf="photoTaken">
+                
+                <ion-slides #slides pager>
+
+                    <ion-slide *ngFor="let item of photos">
+                      <img src="{{item}}" class="slide-image"/>
+                    </ion-slide>
+                
+                </ion-slides>
+                
+                <button *ngIf="photos.length < numMaxPhotos" ion-button clear icon-left (click)="addPicture()">Altra
+                </button>
+                 <button class="align_right" ion-button clear color="danger" (click)="deletePicture()" icon-only><ion-icon name="trash"></ion-icon>Elimina</button>
+            </ion-item>        
+
+            <ion-item *ngIf="photoTaken">
+                <button  class="align_right" ion-button clear icon-right (click)="openSelectCategoryPage()">Prosegui <ion-icon name="ios-arrow-forward"></ion-icon></button>
+            </ion-item>
+            </ion-list>
+    
+    </div>
+    
+</ion-content>

@@ -1,0 +1,115 @@
+
+
+  <!-- logged out menu -->
+  <ion-menu id="loggedOutMenu" [content]="content" type="overlay" class="sidemenu">
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+
+     
+      <ion-list>
+        
+        <button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)" >
+          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+          {{p.title}}
+        </button>
+      </ion-list>
+
+        <ion-list>
+        <ion-list-header>
+          Modulo Segnalazioni
+        </ion-list-header>
+        <button ion-item menuClose *ngFor="let p of reportsPages" (click)="openLoginPage()">
+          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+          {{p.title}}
+        </button>
+      </ion-list>
+        
+      <ion-list>
+        <ion-list-header>
+          Area Privata
+        </ion-list-header>
+        <button ion-item menuClose *ngFor="let p of loggedOutPages" (click)="openPage(p)">
+          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+          {{p.title}}
+        </button>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          Tutorial
+        </ion-list-header>
+        <button ion-item menuClose (click)="openTutorial()">
+          <ion-icon item-start name="hammer"></ion-icon>
+          Vedi Tutorial
+        </button>
+      </ion-list>
+    </ion-content>
+
+  </ion-menu>
+
+  <!-- logged in menu -->
+  <ion-menu id="loggedInMenu" [content]="content" type="overlay" class="sidemenu">
+
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Menu</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="outer-content">
+
+     
+
+        
+    <ion-list>
+        
+        <button ion-item menuClose *ngFor="let p of appPages" (click)="openPage(p)">
+          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+          {{p.title}}
+        </button>
+    </ion-list>
+              
+    <ion-list>
+        <ion-list-header>
+          Modulo Segnalazioni
+        </ion-list-header>
+        <button ion-item menuClose *ngFor="let p of reportsPages" (click)="openPage(p)">
+          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+          {{p.title}}
+        </button>
+      </ion-list>
+        
+      <ion-list>
+        <ion-list-header>
+          Area Privata
+        </ion-list-header>
+        <button ion-item menuClose *ngFor="let p of loggedInPages" (click)="openPage(p)">
+          <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+          {{p.title}}
+        </button>
+      </ion-list>
+
+      <ion-list>
+        <ion-list-header>
+          Tutorial
+        </ion-list-header>
+        <button ion-item menuClose (click)="openTutorial()">
+          <ion-icon item-start name="hammer"></ion-icon>
+          Vedi Tutorial
+        </button>
+      </ion-list>
+
+    </ion-content>
+
+  </ion-menu>
+
+  <!-- main navigation -->
+  <ion-nav [root]="rootPage" #content swipeBackEnabled="false" main></ion-nav>
+
+

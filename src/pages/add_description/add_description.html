@@ -1,0 +1,31 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+		<ion-title>Aggiungi Descrizione</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  
+       <form #descriptionForm="ngForm" novalidate> 
+        
+            
+            <ion-item> 
+        <ion-textarea type="text" minlength = "30" required name="description" placeholder="Inserisci la descrizione qui" [(ngModel)] = "form.description" #description="ngModel"> 
+                </ion-textarea>
+         
+          </ion-item> 
+           <p ion-text [hidden]="description.valid || submitted == false" color="danger" padding-left>
+				Aiutaci inserendo una descrizione di almeno 30 caratteri
+			</p>
+       
+            <button class="align_right" ion-button clear icon-right type="submit" (click)="openSelectCategoryPage(descriptionForm)">Prosegui <ion-icon name="ios-arrow-forward"></ion-icon>
+            </button>
+        
+        </form>
+    
+
+  
+</ion-content>

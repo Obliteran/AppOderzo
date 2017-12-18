@@ -1,0 +1,44 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Le tue segnalazioni</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+    <ion-item-group>
+        <ion-item-divider color="light">
+            Segnalazioni attive
+        </ion-item-divider>
+      <ion-item *ngFor="let item of active_reports" class="reports_list">
+        <ion-thumbnail item-left>
+          <img src="{{item.img}}" />
+        </ion-thumbnail>
+        <h3>{{item.title}}</h3>
+          <p>{{item.description}}</p>
+          <button ion-button clear item-right (click)="addInfoWindow(item.id)" >Dettagli</button>
+      </ion-item>
+        <ion-item *ngIf="active_reports.length == 0">
+            <p>Non ci sono segnalazioni attive</p>
+        </ion-item>
+    </ion-item-group>
+    
+     <ion-item-group>
+        <ion-item-divider color="light">
+            Segnalazioni in attesa di approvazione
+         </ion-item-divider>
+      <ion-item *ngFor="let item of pending_reports" class="reports_list">
+        <ion-thumbnail item-left>
+          <img src="{{item.img}}" />
+        </ion-thumbnail>
+        <h3>{{item.title}}</h3>
+          <p>{{item.description}}</p>
+          <button ion-button clear item-right (click)="addInfoWindow(item.id)" >Dettagli</button>
+      </ion-item>
+         <ion-item *ngIf="pending_reports.length == 0">
+            <p>Non ci sono segnalazioni in attesa di approvazione</p>
+        </ion-item>
+    </ion-item-group>
+</ion-content>

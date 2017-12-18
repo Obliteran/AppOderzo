@@ -1,0 +1,51 @@
+img{
+    
+      margin: auto;
+      display: block;
+      margin-top:7%;
+}
+ion-img{
+      height: 80%;
+      width: 80%;
+      margin: auto;
+      display: block;
+      margin-top:7%;
+}
+
+ion-app._gmaps_cdv_ .nav-decor{
+    background-color: transparent !important;
+}
+ 
+ion-content{
+
+    background-image: url("../assets/background.png");
+    background-color: #cccccc;
+    background-repeat:no-repeat;
+    background-size: cover;
+  
+
+    
+}
+ion-list-header{
+    margin-bottom:0 !important;
+    
+}
+
+.sidemenu ion-list-header, .sidemenu button{
+
+    background:rgba(255,255,255,0.5);
+   
+}
+.form-content ion-item{
+    background:rgba(255,255,255,0.5);
+    
+}
+
+.list-opacity button{
+    background:rgba(255,255,255,0.5);
+    
+}
+
+ion-item{
+    background:rgba(255,255,255,0.5) !important;
+}

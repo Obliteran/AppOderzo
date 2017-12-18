@@ -1,0 +1,25 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+		<ion-title>Oderzo App</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding >
+   <img id="logo" src="https://segnalazioni.epiave.com/api/logo.png">
+  
+    <ion-list>
+      
+             <ion-item>
+                <button ion-button full large (click)=openNewReportPage() icon-left><ion-icon name="add"></ion-icon>Nuova Segnalazione</button>
+      
+                <button ion-button full large (click)="openPublicReportsPage()" icon-left><ion-icon name="map" ></ion-icon>Segnalazioni Attive</button>
+            </ion-item>
+     
+
+    </ion-list>
+    
+  
+</ion-content>

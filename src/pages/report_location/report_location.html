@@ -1,0 +1,16 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+		<ion-title>Specifica il punto del problema</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content>
+     <div #map id="map">
+       
+      </div>
+    <button *ngIf="(marker==null)" ion-button icon-right type="submit" (click)="sendRepo()">Invia Segnalazione<ion-icon name="send"></ion-icon>
+    </button>
+</ion-content>

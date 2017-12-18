@@ -1,0 +1,11 @@
+{
+    "HOME_TITLE": "Benvenuto in Ionic!",
+    "HOME_DES_1": "Questo è un progetto di prova con un menu a tab",
+    "HOME_DES_2": "Vai qui <code>src/pages/</code> per aggiungere o modificare tab",
+    "TAKE_PHOTO": "Scatta una foto",
+    "UPLOAD_PHOTO": "Carica una foto",
+    "LOGIN": "Accedi",
+    "SIGNIN": "Registrati",
+    "CONTACT": "Contatti",
+    "SETTINGS": "Impostazioni"
+}

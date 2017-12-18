@@ -1,0 +1,86 @@
+page-new_report{
+    
+    .reports_list h3{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    
+    
+    
+    #photo{
+        
+        width:50%;
+        height:50%;
+    }
+    
+    
+    ion-list-header{
+        
+       border-top: 0px !important;
+       font-size:1.5em !important;
+        color:black !important;
+        
+    }
+
+    
+    
+    ion-item{
+    overflow:visible !important;
+        
+    }
+    
+
+    
+    .photo_buttons{
+        float:left;
+        
+    }
+    
+    .align_right{
+        float:right;
+    }
+
+    .toolbar-background {
+    background: transparent;
+    border-color: transparent;
+  }
+
+  .slide-zoom {
+    height: 100%;
+  }
+
+  .slide-title {
+    margin-top: 2.8rem;
+  }
+
+  .slide-image {
+    max-height: 50%;
+    max-width: 60%;
+    margin: 36px 0;
+  }
+
+  b {
+    font-weight: 500;
+  }
+
+  p {
+    padding: 0 40px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #60646B;
+
+    b {
+      color: #000000;
+    }
+  }
+    
+    .blocked_account p{
+        
+        color: red;
+        font-weight: 800;
+        font-size: 2em !important;
+        
+    }
+    
+}

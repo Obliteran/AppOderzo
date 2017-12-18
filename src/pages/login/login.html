@@ -1,0 +1,44 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+		<ion-title>Accesso</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content padding class="form-content">
+	
+
+	<form #loginForm="ngForm" novalidate>
+		<ion-list >
+			<ion-item>
+				<ion-label floating>E-mail</ion-label>
+				<ion-input [(ngModel)] = "usercreds.username" name="username "type="text" #username="ngModel" required class="opacity">
+				</ion-input>
+			</ion-item>
+				<p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+				Devi inserire una mail
+			</p>
+
+			<ion-item>
+				<ion-label floating class="opacity">Password</ion-label>
+				 <ion-input [(ngModel)] = "usercreds.password" name="password" type="password" #password="ngModel"  required class="opacity">
+				</ion-input>
+			</ion-item>
+		<p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
+				Devi inserire una password
+			</p>
+		</ion-list>
+
+		<ion-row>
+			<ion-col>
+				 <button type="submit" ion-button (click)="login(loginForm)"  block>Accedi</button>
+			</ion-col>
+			<ion-col>
+				<button ion-button (click)="onSignup()" color="light" block>Registrati</button>
+			</ion-col>
+		</ion-row>
+	</form>
+
+</ion-content>
