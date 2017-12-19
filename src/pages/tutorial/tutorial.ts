@@ -1,10 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-
 import { MenuController, NavController, Slides } from 'ionic-angular';
-
 import { Storage } from '@ionic/storage';
 import {HomePage} from '../home/home';
-import {UserData} from '../../providers/user-data'
 
 @Component({
   selector: 'page-tutorial',
@@ -16,11 +13,7 @@ export class TutorialPage {
 
 	@ViewChild('slides') slides: Slides;
 
-  constructor(
-    public navCtrl: NavController,
-    public menu: MenuController,
-    public storage: Storage,
-  ) { }
+  constructor(public navCtrl: NavController,public menu: MenuController,public storage: Storage){}
 
   startApp() {
       this.storage.get('hasSeenTutorial')

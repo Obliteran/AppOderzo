@@ -1,29 +1,26 @@
-import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
-import { AuthService } from '../authservice/authservice';
-import { MyModal } from '../public_reports/public_reports';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, ModalController, Slides, Platform, LoadingController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
-import { ViewChild } from '@angular/core';
-import { Slides } from 'ionic-angular';
 import { AddDescriptionPage } from '../add_description/add_description';
+import { AuthService } from '../authservice/authservice';
+import { MyModal } from '../public_reports/public_reports';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { Toast } from '@ionic-native/toast';
 
-
-const area = 281000;
+const area = 1000;
 declare var google;
-
 
 @Component({
   selector: 'page-new_report',
   templateUrl: 'new_report.html'
 })
   
-
 export class NewReportPage {
      @ViewChild(Slides) slides: Slides;
     
-    nearReports: boolean;
+    nearReports: Boolean;
     pos;
     
     report = {
@@ -36,45 +33,82 @@ export class NewReportPage {
     };
 
     reports = [];
-    photoTaken = false;
+    photoTaken:Boolean;
     isCamera = false;
     photos = [];
     numMaxPhotos = 3;
     
-    isBlocked: Boolean = false;
+    isBlocked: Boolean;
+
     
-    constructor(public navCtrl: NavController, public authservice: AuthService, public modalCtrl: ModalController, public geolocation: Geolocation, private camera: Camera, private imagePicker: ImagePicker) {
-        
-    }
-        
+    constructor(public navCtrl: NavController, public authservice: AuthService, public modalCtrl: ModalController, public geolocation: Geolocation, private camera: Camera, private imagePicker: ImagePicker, platform: Platform, private toast: Toast, private diagnostic: Diagnostic, public loadingCtrl: LoadingController ) {}
     
     ionViewDidLoad(){
+         
+        let loading = this.loadingCtrl.create({
+                });
+        loading.present();
         
         this.authservice.getUserStatus().then((data :any) => {
-            if(data.enabled != 0) {
+            
+            loading.dismiss();
+            if(data.status != 0) {
                 this.isBlocked = false;
+                this.photoTaken = false;
                 this.currentPosition();
             }
             else 
+                
                 this.isBlocked = true;
         });
+          console.log(this.photos); // debug
     }
     
         
     currentPosition(){
         
-        this.geolocation.getCurrentPosition().then((position) => {
-             this.pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-             this.createReportsList();
-             this.nearReports = true;
-            }).catch((error) => {
+        this.diagnostic.isLocationEnabled().then((isAvaiable) => {
+            if(isAvaiable){
+                let loading = this.loadingCtrl.create({
+                    content: 'Sto cercando tua posizione'
+                });
+                 setTimeout(() => {
+                    loading.dismiss();
+                }, 10000);
+
+                loading.present();
+
+                this.geolocation.getCurrentPosition({timeout:10000}).then((position) => {
+                    this.pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    
+                    this.createReportsList();
+                    this.nearReports = true;
+                    loading.dismiss();
+                    
+                }).catch((error) => {
+                    
+                    this.nearReports = false;
+                    this.pos = null;
+                    console.log(error);
+                    loading.dismiss();
+                });
+            }
+            
+            else{
+                
                 this.nearReports = false;
                 this.pos = null;
-           });
+              
+            }
+       }).catch(error=>{
+            console.log(error);
+             this.nearReports = false;
+            this.pos = null;
+        });
+        
+        
     }
-    
-     
-    
+
     createReportsList(){
         this.authservice.getReports().then( (data: any) => {
             if(data.length >0) {
@@ -138,7 +172,7 @@ export class NewReportPage {
     
     
     takePicture(){
-
+        this.toast.hide();
         const options: CameraOptions = {
             quality: 100,
             destinationType: this.camera.DestinationType.FILE_URI,
@@ -174,24 +208,23 @@ export class NewReportPage {
 
     choosePicture(){
         
-            
+        
+         this.toast.hide();   
          const options: ImagePickerOptions = {
             maximumImagesCount: this.numMaxPhotos-this.photos.length,
         }
         
         this.imagePicker.getPictures(options).then((results) => {
-          for (var i = 0; i < results.length; i++) {
-            this.photos.push(results[i])
-              
-                  
-          }
-        if(this.photos.length > 0){
-
-            this.photoTaken = true;
-            
-        }
+            console.log(results);
+            for (var i = 0; i < results.length; i++) {
+                this.photos.push(results[i])
+            }
+            if(this.photos.length > 0){
+                
+                this.photoTaken = true;
+            }
         }, (err) => { console.log(err) });
-
+        this.isCamera = false;
     }
 
     deletePicture(){
@@ -213,6 +246,4 @@ export class NewReportPage {
         });
 
     }
-
- 
 }

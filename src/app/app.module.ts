@@ -8,11 +8,14 @@ import { MyApp } from './app.component';
 
 //plugin
 import { IonicStorageModule } from '@ionic/storage';
-import { Camera, CameraOptions } from '@ionic-native/camera';
-import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
+import { Camera } from '@ionic-native/camera';
+import { Transfer } from '@ionic-native/transfer';
 import { Geolocation } from '@ionic-native/geolocation';
 import { ImagePicker } from '@ionic-native/image-picker';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { Toast } from '@ionic-native/toast';
+import { Diagnostic } from '@ionic-native/diagnostic';
+
 
 //pages
 import { HomePage } from '../pages/home/home';
@@ -106,7 +109,10 @@ import { InfoBox } from '../pages/report_location/report_location';
     Transfer,
     Camera,
     ImagePicker,
-    SocialSharing
+    SocialSharing,
+    Toast,
+    Diagnostic,
+   
     
     
   ]

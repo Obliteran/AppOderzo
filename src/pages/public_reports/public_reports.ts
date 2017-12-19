@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, AlertController, ModalController,  Platform, NavParams, ViewController } from 'ionic-angular';
+import { NavController, AlertController, ModalController, NavParams, ViewController } from 'ionic-angular';
 import {Http} from '@angular/http';
 import { AuthService } from '../authservice/authservice';
 
@@ -112,12 +112,7 @@ export class ReportsPage {
         
        });
         
-        /*addEventListener(document, "touchstart", function(e) {
-    console.log(e.defaultPrevented);  // will be false
-    e.preventDefault();   // does nothing since the listener is passive
-    console.log(e.defaultPrevented);  // still false
-  }, Modernizr.passiveeventlisteners ? {passive: true} : false);
-    */}
+       }
         
     addInfoWindows(){
  
@@ -164,22 +159,31 @@ export class ReportsPage {
 </ion-header>
 
 <ion-content>
-  
-<img src="{{modal.img}}"/>
+ <ion-item >
+  <ion-slides class="slides" pager="true" zoom="true">
+
+    <ion-slide *ngFor="let item of modal.images">
+    <div class="swiper-zoom-container">
+      <img src="{{item}}"/>
+    </div>
+      
+    </ion-slide>
+    </ion-slides>
+  </ion-item>
+
         
         
-        <ion-list>
+        
       <ion-item>
         
-        <h2>{{modal.adress}}</h2>
+        <h2>{{modal.address}}</h2>
         <p> {{modal.description}}</p>
       </ion-item>
     
-      <ion-item >
+     
    
         
-      </ion-item>
-  </ion-list>
+    
     
 </ion-content>`
 })
@@ -191,15 +195,15 @@ modal = {
     
     title:null,
     description:null,
-    img:null,
-    adress:null
+    images:null,
+    address:null
     
 }
 constructor(params: NavParams, public viewCtrl: ViewController) {
     this.modal.title = params.get('rid').title;
     this.modal.description = params.get('rid').description;
-    this.modal.img = params.get('rid').img;
-    this.modal.adress = params.get('rid').adress;
+    this.modal.images = params.get('rid').images;
+    this.modal.address = params.get('rid').address;
 }
       
     

@@ -151,7 +151,7 @@ export class MyApp {
   }
 
   isActive(page: PageInterface) {
-    let childNav = this.nav.getActiveChildNav();
+    this.nav.getActiveChildNav();
 
     
     return;

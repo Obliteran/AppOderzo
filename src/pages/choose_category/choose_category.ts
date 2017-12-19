@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
-import {ChooseProblemPage } from '../choose_problem/choose_problem';
-
+import { NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { ChooseProblemPage } from '../choose_problem/choose_problem';
+import { AuthService } from '../authservice/authservice';
 
 @Component({
   selector: 'page-choose_category',
@@ -9,43 +9,53 @@ import {ChooseProblemPage } from '../choose_problem/choose_problem';
 })
 export class ChooseCategoryPage {
     categories =  [];
-    items = [];
-
-
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
-        this.categories[1] = [0,'Strada'];
-        this.categories[2] = [0,'Spazio Pubblico'];
-        this.categories[3] =  [0,'Illuminazione'];
-        this.categories[4] =  [0,'Marciapiede'];
-        this.categories[5] =  [0,'Segnali Stradali'];
-        this.categories[6] = [0,'Servizi pubblici'];
-        this.categories[7] =   [1,'Buca'];
-        this.categories[8] =   [1,'Ostacolo'];
-        this.categories[9] =   [2,'Lampadina Rotta'];
-        this.setMainCategories();
-       
-        
-        
-    }
     
+
+
+    constructor(public navCtrl: NavController, public navParams: NavParams, public authservice: AuthService, public alertCtrl: AlertController, public loadingCtrl: LoadingController) {}
+    
+    ionViewDidLoad(){
         
+         let loading = this.loadingCtrl.create({
+                   
+                });
+        loading.present();
+        
+        let parent_id = null;
+        this.authservice.getCategories(parent_id).then((data:any)=>{
+            
+            loading.dismiss();
+            
+            if(data){
+                this.categories = data;
+            }
+            else{
+               var alert = this.alertCtrl.create({
+                        title: 'Errore',
+                        subTitle: 'Si è verificato un errore, riprova più tardi',
+                        buttons: ['ok']
+                });
+                alert.present();
+
+            }
+          
+      });
+       
+    }
     
     
     
     itemSelected(item) {
     
-        for(let id in this.categories)
-            if(item[1] == this.categories[id][1]){
-                    
-                this.navCtrl.push(ChooseProblemPage,{
-                    photos: this.navParams.get("photos"),
-                    description: this.navParams.get("description"),
-                    cat: item[1],
-                    id: id,
-                    categories: this.categories
-                });
+        this.navCtrl.push(ChooseProblemPage,{
+            
+            photos: this.navParams.get("photos"),
+            description: this.navParams.get("description"),
+            cat_id: item.id,
+            
+        });
                       
-            }
+    }
 
     /* var cat_id: number;
         for(let i in this.items)
@@ -55,17 +65,3 @@ export class ChooseCategoryPage {
         this.navCtrl.push(ChooseProblemPage,cat_id);
    */
   }
-     setMainCategories(){
-        
-         
-        for(let id in this.categories){
-            
-            if(this.categories[id][0] == 0){
-                this.items.push(this.categories[id]);
-                
-            }
-        
-        }
-    
-     }
-}

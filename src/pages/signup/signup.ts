@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, NavParams } from 'ionic-angular';
+import { NavController, AlertController, NavParams, LoadingController } from 'ionic-angular';
 import { UserData } from '../../providers/user-data';
 import { AuthService } from '../authservice/authservice';
 import { LoginPage } from '../login/login';
@@ -24,21 +24,20 @@ export class SignupPage {
 submitted :Boolean = false;
     
     
-    constructor(public navCtrl: NavController, public userData: UserData, public authservice: AuthService, public alertCtrl: AlertController, public navParams: NavParams, private formBuilder: FormBuilder) {
-      
-        this.newUser.email = this.navParams.get("email");
-      
-            this.form = formBuilder.group({
+    constructor(public navCtrl: NavController, public userData: UserData, public authservice: AuthService, public alertCtrl: AlertController, public navParams: NavParams, private formBuilder: FormBuilder, public loadingCtrl: LoadingController){ 
+        
+           this.form = formBuilder.group({
                 username: ['', Validators.required],
                 email: ['', Validators.required],
                 cf: ['', Validators.required],
-                passCtrl: this.formBuilder.group({
+                passCtrl: formBuilder.group({
                     password: ['', Validators.required],
                     confirmPass: ['', Validators.required]
                     }, {validator: this.passwordsMatch})
             });
+        
     }
-    
+      
 
 
     passwordsMatch(group: FormGroup) {
@@ -62,17 +61,24 @@ submitted :Boolean = false;
     signUp() {
         
         this.submitted = true;
+        
         if(this.form.valid){
             
+            let loading = this.loadingCtrl.create({
+                content: 'Creazione Account in corso.../n Verrai reindirizzato alla pagina di Login'
+            });
+            loading.present();
             this.newUser.username = this.form.value["username"];
             this.newUser.email = this.form.value["email"];
             this.newUser.cf = this.form.value["cf"];
             this.newUser.password = this.form.value.passCtrl["password"];
             
             this.authservice.addUser(this.newUser).then(data => {
+                
+                loading.dismiss();
                 if(data) {
 
-                    this.navCtrl.push(LoginPage);
+                    this.navCtrl.push(LoginPage,{email:this.newUser.email});
                 }
                 else {
                     var alert = this.alertCtrl.create({

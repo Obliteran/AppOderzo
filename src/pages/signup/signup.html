@@ -14,7 +14,7 @@
 	<ion-list>
 
       <ion-item>
-            <ion-label floating>Scegli un nome utente</ion-label>
+            <ion-label floating>Nome utente</ion-label>
             <ion-input formControlName="username" name= "username" type="text"  maxlength="30"required></ion-input>
       </ion-item>
             <p ion-text *ngIf="form.controls.username.touched && form.controls.username.invalid || (submitted==true && form.controls.username.invalid)" color="danger" padding-left>
@@ -32,14 +32,14 @@
         <ion-item>
             <ion-label floating>Codice Fiscale</ion-label>
             <ion-input formControlName = "cf" name= "cf" type="text"  minlength="16" maxlength="16" required ></ion-input>
-      </ion-item>
+        </ion-item>
             <p ion-text *ngIf="form.controls.cf.touched && form.controls.cf.invalid || (submitted==true && form.controls.cf.invalid)" color="danger" padding-left>
                     Codice fiscale non corretto
             </p>
         <div formGroupName="passCtrl">
         <ion-item >
             <ion-label floating>Password</ion-label>
-            <ion-input formControlName = "password" name="password" type="password"  required minlength="6" maxlength="50"></ion-input>
+            <ion-input clearOnEdit="false" formControlName = "password" name="password" type="password"  required minlength="6" maxlength="50"></ion-input>
         </ion-item>    
             <p ion-text *ngIf="form.controls.passCtrl.controls.password.touched && form.controls.passCtrl.controls.password.invalid || (submitted==true && form.controls.passCtrl.controls.password.invalid)" color="danger" padding-left>
                     La password deve essere di almeno 6 caratteri
@@ -48,7 +48,7 @@
 
         <ion-item>
             <ion-label floating>Conferma Password </ion-label>
-            <ion-input  formControlName = "confirmPass" name="confirmPass" type="password"  required minlength="6" maxlength="50"></ion-input>
+            <ion-input clearOnEdit="false" formControlName = "confirmPass" name="confirmPass" type="password"  required minlength="6" maxlength="50"></ion-input>
       </ion-item>    
             <p ion-text *ngIf="(form.controls.passCtrl.controls.confirmPass.touched &&  form.controls.passCtrl.controls.confirmPass.invalid) || (submitted==true && form.controls.passCtrl.controls.confirmPass.invalid)"  color="danger" padding-left>
                     Le due password non corrispondono
@@ -58,7 +58,7 @@
         
     </ion-list>
 <div padding>
-  <button ion-button type="submit"  >Registrati</button>
+  <button ion-button type="submit">Registrati</button>
 </div>
 </form>
     

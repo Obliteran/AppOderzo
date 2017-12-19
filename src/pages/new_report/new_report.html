@@ -3,8 +3,8 @@
 		<button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-		<ion-title *ngIf="nearReports && !isBlocked">Segnalazioni nelle Vicinanze</ion-title>
-        <ion-title *ngIf="!nearReports && !isBlocked">Aggiungi massimo {{numMaxPhotos}} foto</ion-title>
+		<ion-title *ngIf="nearReports && isBlocked==false">Segnalazioni nelle Vicinanze</ion-title>
+        <ion-title *ngIf="nearReports == false && isBlocked==false">Aggiungi massimo {{numMaxPhotos}} foto</ion-title>
         <ion-title *ngIf="isBlocked">Account Bloccato</ion-title>
 	</ion-navbar>
 </ion-header>
@@ -15,11 +15,9 @@
         
         <p>Il tuo account è stato bloccato, non puoi creare ulteriori segnalazioni.</p>
      
-
-           
-     </div>
+    </div>
     
-    <div *ngIf="nearReports && !isBlocked" name="segnalazioni_vicine" >
+    <div *ngIf="nearReports && isBlocked == false" name="segnalazioni_vicine" >
         
       <ion-list>
       <ion-item *ngFor="let item of reports" class="reports_list">
@@ -39,10 +37,10 @@
     
     
     
-    <div *ngIf="!nearReports && !isBlocked" name="foto">
+    <div *ngIf="nearReports == false && isBlocked==false" name="foto">
         <ion-list>
         
-          <ion-item *ngIf="!photoTaken">  
+          <ion-item *ngIf="photoTaken == false">  
                 <button class="photo_buttons" ion-button full large  (click)="takePicture()" icon-left><ion-icon name="camera"></ion-icon>Scatta</button>
                 <button class="photo_buttons" ion-button full large  (click)="choosePicture()" icon-left><ion-icon name="image"></ion-icon>Recupera</button>
             </ion-item>
@@ -68,5 +66,6 @@
             </ion-list>
     
     </div>
+    
     
 </ion-content>

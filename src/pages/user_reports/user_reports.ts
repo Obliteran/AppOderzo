@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ModalController} from 'ionic-angular';
+import { NavController, NavParams, ModalController, LoadingController} from 'ionic-angular';
 import { MyModal } from '../public_reports/public_reports';
 import { AuthService } from '../authservice/authservice';
 
@@ -10,7 +10,7 @@ import { AuthService } from '../authservice/authservice';
 })
 export class UserReportsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authservice: AuthService, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public authservice: AuthService, public modalCtrl: ModalController, public loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
@@ -29,8 +29,15 @@ export class UserReportsPage {
     };
     
      createReportsList(){
+        let loading = this.loadingCtrl.create({
+                    content: 'Sto caricando le tue segnalazioni'
+                });
+        loading.present();
+         
         this.authservice.getUserReports().then( (data: any) => {
-            if(data.length >0) {
+            
+            loading.dismiss();
+            if((data!=false) && (data.length >0)) {
    
                 for(let report of data){
                     this.selectInfo(report);

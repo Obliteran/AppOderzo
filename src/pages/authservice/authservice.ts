@@ -3,10 +3,14 @@ import {Http, Headers} from '@angular/http';
 import { UserData } from '../../providers/user-data';
 import { Transfer, FileUploadOptions, TransferObject } from '@ionic-native/transfer';
 
+
+
 @Injectable()
 export class AuthService {
-    url_server = 'https://segnalazioni.epiave.com/api/';
-    
+    url_server = 'https://appoderzo.epiave.com/'
+    //url_server = 'https://segnalazioni.epiave.com/api/';
+    //url_server = 'http://192.168.2.125/';  //test da device
+    //url_server = 'http://lumen/';  //test da pc
     
     info = {
         operation: ''
@@ -26,7 +30,7 @@ export class AuthService {
         var data_to_server = user;
         
         return new Promise(resolve => {
-            this.http.post(this.url_server, data_to_server, {headers: headers}).subscribe(data => {
+            this.http.post(this.url_server+"login", data_to_server, {headers: headers}).subscribe(data => {
                 if(data.json().error_code == null){
                     this.creds.login(data.json().data.username,data.json().data.token);
                     resolve(data.json());
@@ -45,7 +49,7 @@ export class AuthService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         
         return new Promise(resolve => {
-            this.http.post(this.url_server, data_to_server, {headers: headers}).subscribe(data => {
+            this.http.post(this.url_server+"signup", data_to_server, {headers: headers}).subscribe(data => {
                 if(data.json().error_code == null){
                    //this.creds.signup(data.json().data.username,data.json().data.token);
                     resolve(true);
@@ -97,14 +101,14 @@ export class AuthService {
             headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
             return new Promise(resolve => {
-                this.http.post(this.url_server, data_to_server, {headers: headers}).subscribe(data => {
+                this.http.post(this.url_server+"getUserStatus", data_to_server, {headers: headers}).subscribe(data => {
                     if(data.json().error_code == null){
                         resolve(data.json().data);
                         
                         
                     }
                     else
-                        resolve(false);
+                        resolve(data.json().data);
                         
                     });
             });
@@ -127,7 +131,7 @@ export class AuthService {
             headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
             return new Promise(resolve => {
-                this.http.post(this.url_server, data_to_server, {headers: headers}).subscribe(data => {
+                this.http.post(this.url_server+"getUserReports", data_to_server, {headers: headers}).subscribe(data => {
                     if(data.json().error_code == null){
                         resolve(data.json().data);
                         
@@ -145,30 +149,41 @@ export class AuthService {
     //---------------------------------------------------------------------------------------
     //photo context
     //---------------------------------------------------------------------------------------
-    pictureTransfer(photos){
+    pictureTransfer(photos,id){
         
-        for(let entry of photos){
+        const fileTransfer: TransferObject = this.transfer.create();
+                
+                var x = 0;
+                var count = photos.length;
         
-        
-        
-            const fileTransfer: TransferObject = this.transfer.create();
 
-            /*let options: FileUploadOptions = {
+                
+                 return new Promise(resolve => {
+                   for(let entry of photos){
+                       x++;
+                       let options: FileUploadOptions = {
 
-                fileKey: 'file',
-                fileName: 'name.jpg',
-                headers: {}
-            }*/
+                            fileKey: 'file',
+                            fileName: id+"_"+x+'.jpg',
+                            headers: {},
 
-            return fileTransfer.upload(entry,this.url_server).then((data) => {
+                        }
+                       
+                        fileTransfer.upload(entry,this.url_server+'pictureTransfer',options).then((data) => {
+                         
+                            if(count<=1){
+                               resolve(true);
+                            }
+                            count--;
 
-                return data;
-            }, (err) => {
-           return err;
-            })
-        }   
-        
+                        }, (err) => {
+
+                            resolve(false);
+                        });
+                   }
+              });
     }
+    
     
     //---------------------------------------------------------------------------------------
     //reports context
@@ -181,12 +196,12 @@ export class AuthService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         
         return new Promise(resolve => {
-            this.http.post(this.url_server, data_to_server, {headers: headers}).subscribe(data => {
+            this.http.post(this.url_server+"getReports", data_to_server, {headers: headers}).subscribe(data => {
                 if(data.json().error_code == null){
                     resolve(data.json().data);
                 }
                 else
-                    resolve(false);
+                    resolve(data.json().data);
             });
         });
     }
@@ -204,12 +219,12 @@ export class AuthService {
         headers.append('Content-Type', 'application/x-www-form-urlencoded');
         
         return new Promise(resolve => {
-            this.http.post(this.url_server, data_to_server, {headers: headers}).subscribe(data => {
+            this.http.post(this.url_server+"getReportInfo", data_to_server, {headers: headers}).subscribe(data => {
                 if(data.json().error_code == null){
                     resolve(data.json());
                 }
                 else
-                    resolve(false);
+                    resolve(data.json());
             });
         });
        
@@ -218,27 +233,62 @@ export class AuthService {
     
     sendReport(report){
         
-        return this.creds.getToken().then((token) => {
+        return this.getUserStatus().then((user: any) => {
             
             report.operation = "create-ticket";
-            report.token = token;  
+            report.token = user.token;
+            report.user_status = user.status;
+            
             var data_to_server = report;
             var headers = new Headers();
             headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
             return new Promise(resolve => {
-                this.http.post(this.url_server, data_to_server, {headers: headers}).subscribe(data => {
+                this.http.post(this.url_server+"sendReport", data_to_server, {headers: headers}).subscribe(data => {
                     if(data.json().error_code == null){
-                        resolve(true);
+                        
+                        resolve(data.json());
                         
                         
                     }
                     else
-                        resolve(false);
+                        resolve(data.json());
                         
                     });
             });
         });
     
     }
+    
+    //---------------------------------------------------------------------------------------
+    //categories context
+    //---------------------------------------------------------------------------------------
+    
+    getCategories(parent_id){
+        
+        let info = {
+            operation: 'get-categories',
+            parent_id: parent_id
+        }
+        var data_to_server = info;
+        var headers = new Headers();
+        headers.append('Content-Type', 'application/x-www-form-urlencoded');
+
+        return new Promise(resolve => {
+            this.http.post(this.url_server+"getCategories", data_to_server, {headers: headers}).subscribe(data => {
+                if(data.json().error_code == null){
+
+                    resolve(data.json().data);
+
+
+                }
+                else
+                    resolve(false);
+
+                });
+        });
+    }
+    
+    
+    
 }

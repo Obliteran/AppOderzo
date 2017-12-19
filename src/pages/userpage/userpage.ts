@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { AuthService } from '../authservice/authservice';
 import { UserData } from '../../providers/user-data';
-import { HomePage } from '../home/home';
 import { NewReportPage } from '../new_report/new_report';
 import { UserReportsPage } from '../user_reports/user_reports';
 

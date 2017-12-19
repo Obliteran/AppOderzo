@@ -3,15 +3,15 @@
 		<button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-		<ion-title>Seleziona la categoria del problema</ion-title>
+		<ion-title>Seleziona la categoria</ion-title>
 	</ion-navbar>
 </ion-header>
 
 <ion-content padding>
   
    <ion-list inset  class="list-opacity">
-  <button ion-item *ngFor="let item of items" (click)="itemSelected(item)">
-    {{ item[1] }}
+  <button ion-item *ngFor="let item of categories" (click)="itemSelected(item)">
+    {{ item.name }}
   </button>  
 </ion-list>
     

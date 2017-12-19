@@ -10,22 +10,23 @@
 <ion-content >
   <div padding-top text-center *ngIf="username" >
       <ion-avatar>
-        <img src="http://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">
+        <img src="./assets/gravatar.png" alt="avatar" width="140" height="140">
       </ion-avatar>
     <h2>Bentornato {{username}}</h2>
 
     <ion-list inset class="list-opacity">
+        <button ion-item (click)="newReport()">Nuova Segnalazione</button>
         <button ion-item (click)="userReports()">Le tue segnalazioni</button>
-      <button ion-item >Cambia immagine</button>
-      <button ion-item >Cambia username</button>
-      <button ion-item >Cambia password</button>
-      <button ion-item >Supporto</button>
-      <button ion-item >Info</button>  
+        <button ion-item >Cambia immagine</button>
+        <button ion-item >Cambia username</button>
+        <button ion-item >Cambia password</button>
+        <button ion-item >Supporto</button>
+        <button ion-item >Info</button>  
       
 
     </ion-list>
       
-        <button ion-button (click)="newReport()">Nuova Segnalazione</button>
+       
   </div>
 </ion-content>
   

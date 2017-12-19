@@ -14,16 +14,16 @@
 		<ion-list >
 			<ion-item>
 				<ion-label floating>E-mail</ion-label>
-				<ion-input [(ngModel)] = "usercreds.username" name="username "type="text" #username="ngModel" required class="opacity">
+				<ion-input [(ngModel)] = "usercreds.email" name="email "type="email" #email="ngModel" required class="opacity">
 				</ion-input>
 			</ion-item>
-				<p ion-text [hidden]="username.valid || submitted == false" color="danger" padding-left>
+				<p ion-text [hidden]="email.valid || submitted == false" color="danger" padding-left>
 				Devi inserire una mail
 			</p>
 
 			<ion-item>
 				<ion-label floating class="opacity">Password</ion-label>
-				 <ion-input [(ngModel)] = "usercreds.password" name="password" type="password" #password="ngModel"  required class="opacity">
+				 <ion-input clearOnEdit="false" [(ngModel)] = "usercreds.password" name="password" type="password" #password="ngModel"  required class="opacity">
 				</ion-input>
 			</ion-item>
 		<p ion-text [hidden]="password.valid || submitted == false" color="danger" padding-left>
