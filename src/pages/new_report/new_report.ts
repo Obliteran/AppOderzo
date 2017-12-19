@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, ModalController, Slides, Platform, LoadingController } from 'ionic-angular';
+import { NavController, ModalController, Slides, Platform, LoadingController, AlertController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
@@ -39,9 +39,9 @@ export class NewReportPage {
     numMaxPhotos = 3;
     
     isBlocked: Boolean;
-
+    base64Image:any;
     
-    constructor(public navCtrl: NavController, public authservice: AuthService, public modalCtrl: ModalController, public geolocation: Geolocation, private camera: Camera, private imagePicker: ImagePicker, platform: Platform, private toast: Toast, private diagnostic: Diagnostic, public loadingCtrl: LoadingController ) {}
+    constructor(public navCtrl: NavController, public authservice: AuthService, public modalCtrl: ModalController, public geolocation: Geolocation, private camera: Camera, private imagePicker: ImagePicker, platform: Platform, private toast: Toast, private diagnostic: Diagnostic, public loadingCtrl: LoadingController, public alertCtrl: AlertController ) {}
     
     ionViewDidLoad(){
          
@@ -61,7 +61,7 @@ export class NewReportPage {
                 
                 this.isBlocked = true;
         });
-          console.log(this.photos); // debug
+        
     }
     
         
@@ -183,6 +183,7 @@ export class NewReportPage {
         
         
         this.camera.getPicture(options).then((imageData) => {
+           
             // imageData is either a base64 encoded string or a file URI
             this.photos.push(imageData);
             if(this.photos.length > 0){
@@ -191,8 +192,8 @@ export class NewReportPage {
            
             }
         }, (err) => {
-                // Handle error
-                console.log(err);
+                
+               
             });    
     }   
     
@@ -207,15 +208,45 @@ export class NewReportPage {
 
 
     choosePicture(){
+        this.toast.hide(); 
+        let loading = this.loadingCtrl.create({
+                });
+        loading.present();
+        this.camera.getPicture({
+            sourceType: this.camera.PictureSourceType.SAVEDPHOTOALBUM,
+            destinationType: this.camera.DestinationType.DATA_URL
+        }).then((imageData) => {
+            
+            this.photoTaken = true;
+            this.photos.push('data:image/jpeg;base64,'+imageData);
+            loading.dismiss();
+        
+        }, (err) => {
+            loading.dismiss();
+            if( err != "Selection cancelled.") {
+             
+                var alert = this.alertCtrl.create({
+                    title: 'Attenzione',
+                    subTitle: 'Immagine non valida',
+                    buttons: ['ok']
+                });
+            alert.present();
+            }
+        });
         
         
-         this.toast.hide();   
+        /* Selezione foto dalla galleria attraverso il plugin Image Picker
+            Bug: la variabile results contiene la stringa "ok"
+           
          const options: ImagePickerOptions = {
+             
             maximumImagesCount: this.numMaxPhotos-this.photos.length,
+             
         }
         
+        
         this.imagePicker.getPictures(options).then((results) => {
-            console.log(results);
+            
             for (var i = 0; i < results.length; i++) {
                 this.photos.push(results[i])
             }
@@ -224,7 +255,8 @@ export class NewReportPage {
                 this.photoTaken = true;
             }
         }, (err) => { console.log(err) });
-        this.isCamera = false;
+       */
+         this.isCamera = false;
     }
 
     deletePicture(){

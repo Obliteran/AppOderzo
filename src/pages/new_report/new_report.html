@@ -55,8 +55,8 @@
                 
                 </ion-slides>
                 
-                <button *ngIf="photos.length < numMaxPhotos" ion-button clear icon-left (click)="addPicture()">Altra
-                </button>
+                <button *ngIf="photos.length < numMaxPhotos" ion-button clear icon-left (click)="addPicture()"><ion-icon name="add"></ion-icon>Aggiungi</button>
+                
                  <button class="align_right" ion-button clear color="danger" (click)="deletePicture()" icon-only><ion-icon name="trash"></ion-icon>Elimina</button>
             </ion-item>        
 

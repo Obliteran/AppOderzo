@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, AlertController, ModalController, NavParams, ViewController } from 'ionic-angular';
+import { NavController, AlertController, ModalController, NavParams, ViewController, LoadingController } from 'ionic-angular';
 import {Http} from '@angular/http';
 import { AuthService } from '../authservice/authservice';
 
@@ -20,8 +20,9 @@ export class ReportsPage {
     
     comune = new google.maps.LatLng(45.780000, 12.495330);
     pos;
+    loading:any;
     
-    constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public modalCtrl: ModalController, public authservice: AuthService) {
+    constructor(public navCtrl: NavController, public http: Http, public alertCtrl: AlertController, public modalCtrl: ModalController, public authservice: AuthService, public loadingCtrl: LoadingController) {
      
     }
         
@@ -36,6 +37,9 @@ export class ReportsPage {
            
 
     loadMap() {
+       this.loading = this.loadingCtrl.create({       
+        });
+        this.loading.present();
         // create LatLng object
     
         let mapOptions = {
@@ -54,6 +58,7 @@ export class ReportsPage {
         
         this.authservice.getReports().then( (data: any) => {
             
+            this.loading.dismiss();
             for(let report of data){
                     this.addMarkers(report);
                 }
